@@ -2,7 +2,33 @@ const products = [
             { id: 1, name: "Midnight Silk Hoodie", price: 1299, category: "clothing", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80" },
             { id: 2, name: "Urban Velocity Sneakers", price: 2450, category: "shoes", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80" },
             { id: 3, name: "Gold-Trimmed Palette Cap", price: 450, category: "accessories", img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=400&q=80" },
-            { id: 4, name: "Ivory Linen Trousers", price: 1800, category: "clothing", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=400&q=80" }
+            { id: 4, name: "Ivory Linen Trousers", price: 1800, category: "clothing", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=400&q=80" },
+            { id: 5, name: "Brown", price: 1800, category: "bags", img: "1.jpeg" },
+            { id: 6, name: "White", price: 1800, category: "bags", img: "2.jpeg" },
+            { id: 7, name: "Black bag", price: 1800, category: "bags", img: "3.jpeg" },
+            { id: 8, name: "Colored Bags", price: 1800, category: "bags", img: "4.jpeg" },
+            { id: 9, name: "Red & White", price: 1800, category: "bags", img: "5.jpeg" },
+            { id: 10, name: "Blue", price: 1800, category: "bags", img: "6.jpeg" },
+            { id: 11, name: "Colored bags", price: 1800, category: "bags", img: "7.jpeg" },
+            { id: 12, name: "Brown & White", price: 1800, category: "bags", img: "8.jpeg" },
+            { id: 13, name: "Colored bags", price: 1800, category: "bags", img: "9.jpeg" },
+            { id: 14, name: "The Pammy Sculpted Bucket Bag", price: 1800, category: "bags", img: "10.jpeg" },
+
+            { id: 15, name: "Brown Bucket Bag", price: 1800, category: "bags", img: "11.jpeg" },
+            { id: 16, name: "Baindasishu", price: 1800, category: "bags", img: "12.jpeg" },
+            { id: 17, name: "Essorted Colored", price: 1800, category: "bags", img: "13.jpeg" },
+            { id: 18, name: "Colored Bags", price: 1800, category: "bags", img: "14.jpeg" },
+            { id: 19, name: "Vuillard", price: 1800, category: "bags", img: "15.jpeg" },
+            { id: 20, name: "Essorted Colors", price: 1800, category: "bags", img: "16.jpeg" },
+            { id: 21, name: "Heart Bags", price: 1800, category: "bags", img: "17.jpeg" },
+            { id: 22, name: "Brown & White", price: 1800, category: "bags", img: "18.jpeg" },
+            { id: 23, name: "Colored bags", price: 1800, category: "bags", img: "19.jpeg" },
+            { id: 24, name: "Clutch Bag", price: 1800, category: "bags", img: "20.jpeg" },
+            { id: 25, name: "Heart Bags", price: 1800, category: "bags", img: "17.jpeg" },
+
+            { id: 26, name: "White", price: 1800, category: "bags", img: "21.jpeg" },
+            { id: 27, name: "Colored bags", price: 1800, category: "bags", img: "22.jpeg" },
+            { id: 28, name: "Clutch Bag", price: 1800, category: "bags", img: "23.jpeg" }
         ];
 
         let cart = [];
