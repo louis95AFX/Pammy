@@ -599,3 +599,28 @@ justify-content: center;
         height: 30px;
     }
 }
+.social-links {
+    display: flex;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.social-links a {
+    color: var(--text-dim); /* Initial subtle color */
+    font-size: 1.2rem;      /* Larger, elegant sizing */
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    color: var(--primary);  /* Transitions to your Luxury Gold #c9a050 */
+    transform: translateY(-3px); /* Subtle lift effect */
+}
+
+/* Specific footer logo spacing */
+.footer-logo {
+    height: 50px;
+    width: auto;
+    margin-bottom: 15px;
+    display: block;
+}
