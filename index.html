@@ -23,6 +23,8 @@
             <button class="search-text-btn" onclick="toggleSearch()">Search</button>
         </div>
         
+        <a href="admin.html" class="icon-btn" title="Admin Portal" style="text-decoration: none;">🔒</a>
+        
         <button class="icon-btn" onclick="toggleTheme()">🌗</button>
         <button class="icon-btn" id="cartBtn" onclick="toggleCart()">🛒</button>
     </div>
@@ -46,44 +48,53 @@
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-grid">
-        <div class="footer-brand">
-            <div class="logo">
-                <img src="logo.png" alt="Pammy Luxe Logo" class="footer-logo">
+        <div class="container footer-grid">
+          <div class="footer-brand">
+              <div class="logo">
+                  <img src="logo.png" alt="Pammy Luxe Logo" class="footer-logo">
+              </div>
+              <p>Curating luxury essentials for the modern wardrobe. Quality, elegance, and timeless style delivered to your door.</p>
+              
+              <p style="margin-top: 15px; font-size: 0.9rem;">
+                  <a href="mailto:sales@pammyluxe.co.za" style="color: var(--text-dim); text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dim)'">
+                      <i class="fas fa-envelope" style="color: var(--primary); margin-right: 8px;"></i> sales@pammyluxe.co.za
+                  </a>
+              </p>
+  
+              <div class="social-links">
+                  <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                  <a href="https://tiktok.com/@pamgugunkosi5" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                  <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+              </div>
+          </div>
+    
+            <div class="footer-links">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#" onclick="filterItems('clothing', this)">Apparel</a></li>
+                    <li><a href="#" onclick="filterItems('shoes', this)">Footwear</a></li>
+                    <li><a href="#" onclick="filterItems('accessories', this)">Essentials</a></li>
+                    <li><a href="#" onclick="filterItems('bag', this)">Bag</a></li>
+                </ul>
             </div>
-            <p>Curating luxury essentials for the modern wardrobe. Quality, elegance, and timeless style delivered to your door.</p>
-            <div class="social-links">
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+    
+            <div class="footer-newsletter">
+                <h4>Join the Inner Circle</h4>
+                <p>Subscribe for early access to new drops.</p>
+                <form class="footer-form" action="https://formsubmit.co/ajax/YOUR-EMAIL" method="POST">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <button type="submit" class="subscribe-btn">SUBSCRIBE</button>
+                </form>
             </div>
         </div>
-  
-          <div class="footer-links">
-              <h4>Shop</h4>
-              <ul>
-                  <li><a href="#" onclick="filterItems('clothing', this)">Apparel</a></li>
-                  <li><a href="#" onclick="filterItems('shoes', this)">Footwear</a></li>
-                  <li><a href="#" onclick="filterItems('accessories', this)">Essentials</a></li>
-                  <li><a href="#" onclick="filterItems('bag', this)">Bag</a></li>
-              </ul>
-          </div>
-  
-          <div class="footer-newsletter">
-              <h4>Join the Inner Circle</h4>
-              <p>Subscribe for early access to new drops.</p>
-              <form class="footer-form" action="https://formsubmit.co/ajax/YOUR-EMAIL" method="POST">
-                  <input type="text" name="name" placeholder="Your Name" required>
-                  <input type="email" name="email" placeholder="Email Address" required>
-                  <button type="submit" class="subscribe-btn">SUBSCRIBE</button>
-              </form>
-          </div>
-      </div>
-      
-      <div class="footer-bottom">
-          <p>&copy; 2026 Pammy Luxe. All Rights Reserved. Built with Luxury.</p>
-      </div>
-  </footer>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Pammy Luxe. All Rights Reserved. Built with Luxury.</p>
+        </div>
+    </footer>
+
 
     <div class="cart-overlay" onclick="toggleCart()"></div>
     <div class="cart-sidebar" id="cartSidebar">
@@ -100,8 +111,33 @@
             <button class="checkout-btn" onclick="handleCheckout()">Secure Checkout</button>
         </div>
     </div>
+    <div class="modal-overlay" onclick="closeQuickView()"></div>
+<div class="product-modal" id="productModal">
+    <button class="close-modal-btn" onclick="closeQuickView()">✕</button>
+    <div class="modal-content">
+        <div class="modal-gallery">
+            <img id="modalMainImage" src="" alt="Product View">
+        </div>
+        <div class="modal-details">
+            <h2 id="modalTitle"></h2>
+            <p id="modalPrice" class="modal-price"></p>
+            
+            <div class="color-section">
+                <h4>Select Color</h4>
+                <div class="color-chips" id="colorSelectors"></div>
+            </div>
 
-    <a href="https://wa.me/27123456789" class="whatsapp-float">
+            <div class="size-section">
+                <h4>Select Size</h4>
+                <div class="size-chips" id="sizeSelectors">
+                    </div>
+            </div>
+            <button class="checkout-btn" onclick="addSelectedToCart()">Add Selected to Bag</button>
+        </div>
+    </div>
+</div>
+
+    <a href="https://wa.me/27611908644" class="whatsapp-float">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="30" alt="WA">
     </a>
     <script src="script.js"></script>

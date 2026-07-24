@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed | Pammy Luxe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ebc3db;
+            --primary-dark: #d4aabf;
+            --dark: #0d0d0d;
+            --light: #faf8f5;
+            --text-main: #1a1a1a;
+            --text-dim: #707070;
+            --white: #ffffff;
+            --success-gold: #c5a880;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--light);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-card {
+            background-color: var(--white);
+            max-width: 550px;
+            width: 100%;
+            padding: 50px 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+            text-align: center;
+            border: 1px solid rgba(235, 195, 219, 0.3);
+        }
+
+        .brand-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .brand-logo i {
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+            color: var(--text-dim);
+        }
+
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(235, 195, 219, 0.2);
+            color: var(--text-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px auto;
+            font-size: 2rem;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .message {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+            margin-bottom: 30px;
+        }
+
+        .order-details {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .detail-row:last-child {
+            margin-bottom: 0;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            font-weight: 700;
+        }
+
+        .detail-label {
+            color: var(--text-dim);
+        }
+
+        .detail-value {
+            color: var(--dark);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .primary-btn {
+            background-color: var(--dark);
+            color: var(--white);
+            border: none;
+            padding: 15px 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .primary-btn:hover {
+            background-color: #262626;
+            transform: translateY(-1px);
+        }
+
+        .secondary-btn {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--dark);
+            padding: 14px 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-btn:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .footer-note a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="success-card">
+        <div class="brand-logo">Pammy <i>Luxe</i></div>
+        
+        <div class="icon-wrapper">
+            <i class="fa-solid fa-bag-shopping"></i>
+        </div>
+        
+        <h1>Thank You for Your Order</h1>
+        <p class="message">Your payment was successfully authorized. A confirmation receipt, alongside a tracking layout link, has been dispatched to your email address.</p>
+        
+        <div class="order-details">
+            <div class="detail-row">
+                <span class="detail-label">Status</span>
+                <span class="detail-value" style="color: #4caf50; font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Paid Securely</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Transaction Gateway</span>
+                <span class="detail-value">PayFast by Network</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Delivery Timeline</span>
+                <span class="detail-value">2 - 5 Business Days</span>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a href="index.html" class="primary-btn">Continue Shopping</a>
+            <a href="https://wa.me/27611908644" target="_blank" class="secondary-btn">
+                <i class="fab fa-whatsapp" style="margin-right: 8px; color: #25d366;"></i> Chat With Support
+            </a>
+        </div>
+
+        <p class="footer-note">Encountered an issue? Contact us at <a href="mailto:sales@pammyluxe.co.za">sales@pammyluxe.co.za</a></p>
+    </div>
+
+</body>
+</html>

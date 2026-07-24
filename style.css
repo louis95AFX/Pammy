@@ -624,3 +624,195 @@ justify-content: center;
     margin-bottom: 15px;
     display: block;
 }
+
+/* --- EXTENSIONS FOR COLOR SELECTION & MODAL --- */
+.variant-dots {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 15px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: inline-block;
+}
+
+/* Modal Layout */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    visibility: hidden;
+    opacity: 0;
+    z-index: 3000;
+    transition: 0.3s ease;
+}
+
+.product-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%) scale(0.95);
+    width: 90%;
+    max-width: 800px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    z-index: 3001;
+    padding: 30px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.modal-active .modal-overlay { visibility: visible; opacity: 1; }
+.modal-active .product-modal { 
+    visibility: visible; 
+    opacity: 1; 
+    transform: translate(-50%, -50%) scale(1); 
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.modal-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.modal-gallery {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: #222;
+    border-radius: calc(var(--radius) - 4px);
+    overflow: hidden;
+}
+
+.modal-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal-price {
+    color: var(--primary);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 10px 0 25px 0;
+}
+
+.color-section h4 {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+}
+
+.color-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.color-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.color-chip:hover, .color-chip.active {
+    border-color: var(--primary);
+    background: var(--glass);
+}
+
+.chip-preview {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Modal Responsive Handling */
+@media (max-width: 768px) {
+    .modal-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .product-modal {
+        top: 55%;
+        padding: 20px;
+        overflow-y: auto;
+        max-height: 85vh;
+    }
+}
+
+/* --- EXTENSIONS FOR SIZE SELECTION --- */
+.size-section h4 {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    margin-top: 20px; /* Provides spacing below the color section */
+}
+
+.size-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.size-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    min-width: 45px;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 30px; /* Elegant pill shape matching the colors */
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.size-chip:hover, .size-chip.active {
+    border-color: var(--primary);
+    background: var(--glass);
+    color: var(--primary);
+}
