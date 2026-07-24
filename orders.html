@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pammy Luxe | Order Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17140f;
+    --ink-soft:#26221a;
+    --paper:#f4eee1;
+    --paper-dim:#e7ddc8;
+    --gold:#a9812f;
+    --gold-soft:#d9c48c;
+    --rose:#9c5b53;
+    --sage:#5c6b4f;
+    --line: rgba(244,238,225,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--ink);
+    color: var(--paper);
+    font-family:'Manrope', sans-serif;
+    min-height:100vh;
+    padding: 40px 24px 80px;
+  }
+  .wrap{ max-width: 1040px; margin: 0 auto; }
+
+  /* Header */
+  header{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    flex-wrap:wrap; gap:18px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 22px; margin-bottom: 28px;
+  }
+  .brand-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em; text-transform:uppercase;
+    color: var(--gold-soft); opacity:0.85; margin-bottom: 6px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:500; font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: -0.01em;
+  }
+  h1 em{ font-style:italic; color: var(--gold-soft); font-weight:400;}
+  .demo-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase;
+    color: var(--ink); background: var(--gold-soft);
+    padding: 4px 10px; border-radius: 3px; align-self:flex-start;
+  }
+
+  /* Stat strip */
+  .stats{
+    display:grid; grid-template-columns: repeat(4,1fr); gap:1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 34px;
+  }
+  .stat{ background: var(--ink); padding: 18px 20px; }
+  .stat .num{
+    font-family:'Fraunces', serif; font-size: 30px; font-weight:500;
+    color: var(--paper);
+  }
+  .stat .label{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--paper);
+    opacity:0.55; margin-top:4px;
+  }
+  .stat.pending .num{ color: var(--rose); }
+  .stat.dispatched .num{ color: var(--sage); }
+
+  /* Controls */
+  .controls{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px; margin-bottom: 22px;
+  }
+  .tabs{ display:flex; gap: 4px; }
+  .tab{
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    letter-spacing:0.06em; text-transform:uppercase;
+    color: var(--paper); opacity:0.5;
+    background:none; border:none; cursor:pointer;
+    padding: 10px 16px; border-bottom: 2px solid transparent;
+    transition: opacity 0.2s, border-color 0.2s;
+  }
+  .tab:hover{ opacity:0.85; }
+  .tab.active{ opacity:1; border-color: var(--gold); }
+  .tab .count{ opacity:0.6; margin-left:4px; }
+
+  .search{
+    font-family:'Manrope', sans-serif; font-size:13px;
+    background: var(--ink-soft); border:1px solid var(--line);
+    color: var(--paper); padding: 9px 14px; border-radius: 4px;
+    width: 220px; outline:none;
+  }
+  .search::placeholder{ color: var(--paper); opacity:0.4; }
+  .search:focus{ border-color: var(--gold); }
+
+  /* Order tag cards */
+  .ledger{ display:flex; flex-direction:column; gap:12px; }
+  .order{
+    background: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    position:relative;
+    overflow:hidden;
+    transition: border-color 0.2s;
+  }
+  .order:hover{ border-color: rgba(169,129,47,0.4); }
+  .order::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:4px;
+    background: var(--rose);
+  }
+  .order.is-dispatched::before{ background: var(--sage); }
+
+  .order-row{
+    display:grid;
+    grid-template-columns: 20px 1.1fr 1.4fr 0.8fr 0.8fr 1fr auto;
+    align-items:center; gap: 16px;
+    padding: 16px 20px 16px 24px;
+    cursor:pointer;
+  }
+  .punch{
+    width:9px; height:9px; border-radius:50%;
+    background: var(--ink); border: 1px solid var(--line);
+  }
+  .order-id{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; color: var(--gold-soft);
+  }
+  .customer{ font-size:14px; font-weight:600; }
+  .customer .sub{
+    display:block; font-weight:400; font-size:12px; opacity:0.5; margin-top:2px;
+  }
+  .items-count{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; opacity:0.7; }
+  .total{ font-family:'IBM Plex Mono', monospace; font-size:14px; font-weight:500; }
+  .date{ font-family:'IBM Plex Mono', monospace; font-size:12px; opacity:0.55; }
+
+  .status-stamp{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+    letter-spacing:0.1em; text-transform:uppercase;
+    padding: 6px 12px; border-radius: 20px;
+    border: 1px solid var(--rose); color: var(--rose);
+    justify-self:end; white-space:nowrap;
+  }
+  .order.is-dispatched .status-stamp{
+    border-color: var(--sage); color: var(--sage);
+  }
+
+  .order-detail{
+    max-height:0; overflow:hidden;
+    transition: max-height 0.28s ease, padding 0.28s ease;
+    border-top: 1px dashed var(--line);
+  }
+  .order.expanded .order-detail{ max-height: 320px; }
+  .detail-inner{ padding: 18px 24px 20px; display:flex; gap:32px; flex-wrap:wrap; }
+  .detail-col h4{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+    letter-spacing:0.1em; text-transform:uppercase; opacity:0.5; margin-bottom:8px;
+  }
+  .item-line{ font-size:13.5px; margin-bottom:5px; opacity:0.9; }
+  .item-line span{ opacity:0.55; font-family:'IBM Plex Mono', monospace; font-size:12px; }
+
+  .dispatch-btn{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px;
+    letter-spacing:0.08em; text-transform:uppercase;
+    background: var(--sage); color: var(--paper);
+    border:none; padding: 10px 16px; border-radius:4px; cursor:pointer;
+    align-self:flex-start; transition: filter 0.15s;
+  }
+  .dispatch-btn:hover{ filter: brightness(1.12); }
+  .order.is-dispatched .dispatch-btn{
+    background: transparent; border: 1px solid var(--line); color: var(--paper); opacity:0.6;
+  }
+
+  .empty{
+    text-align:center; padding: 60px 20px; opacity:0.5;
+    font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:0.05em;
+  }
+
+  @media (max-width: 760px){
+    .order-row{
+      grid-template-columns: 1fr auto;
+      grid-template-areas: "id stamp" "cust cust" "meta meta";
+      row-gap:8px;
+    }
+    .order-id{ grid-area:id; }
+    .status-stamp{ grid-area:stamp; }
+    .customer{ grid-area:cust; }
+    .items-count, .total, .date{ grid-area:meta; display:inline-block; margin-right:14px; }
+    .punch{ display:none; }
+    .stats{ grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <div class="brand-eyebrow">Pammy Luxe · Admin</div>
+      <h1>Order <em>Ledger</em></h1>
+    </div>
+    <div class="demo-tag">Demo — sample data only</div>
+  </header>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="num" id="stat-total">0</div>
+      <div class="label">Total Orders</div>
+    </div>
+    <div class="stat pending">
+      <div class="num" id="stat-pending">0</div>
+      <div class="label">Pending</div>
+    </div>
+    <div class="stat dispatched">
+      <div class="num" id="stat-dispatched">0</div>
+      <div class="label">Dispatched</div>
+    </div>
+    <div class="stat">
+      <div class="num" id="stat-revenue">R0</div>
+      <div class="label">Total Revenue</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="tabs">
+      <button class="tab active" data-filter="all">All <span class="count" id="count-all"></span></button>
+      <button class="tab" data-filter="pending">Pending <span class="count" id="count-pending"></span></button>
+      <button class="tab" data-filter="dispatched">Dispatched <span class="count" id="count-dispatched"></span></button>
+    </div>
+    <input class="search" id="search" type="text" placeholder="Search customer or order id…">
+  </div>
+
+  <div class="ledger" id="ledger"></div>
+  <div class="empty" id="empty" style="display:none;">No orders match this view.</div>
+
+</div>
+
+<script>
+  // ---- Sample demo data ----
+  let orders = [
+    { id:"PL-1042", customer:"Naledi Khumalo", email:"naledi.k@gmail.com", date:"2026-07-22", status:"pending",
+      items:[{name:"Silk Wrap Blouse — Ivory, M",qty:1,price:1450},{name:"Leather Belt — Cognac",qty:1,price:620}] },
+    { id:"PL-1041", customer:"Thabo Mokoena", email:"thabo.mok@outlook.com", date:"2026-07-22", status:"dispatched",
+      items:[{name:"Tailored Trousers — Black, 34",qty:1,price:1890}] },
+    { id:"PL-1040", customer:"Zanele Dube", email:"zanele.dube@yahoo.com", date:"2026-07-21", status:"pending",
+      items:[{name:"Cashmere Scarf — Camel",qty:2,price:980},{name:"Signature Tote — Onyx",qty:1,price:3200}] },
+    { id:"PL-1039", customer:"Sipho Nkosi", email:"sipho.n@gmail.com", date:"2026-07-20", status:"dispatched",
+      items:[{name:"Suede Loafers — Chestnut, 42",qty:1,price:2450}] },
+    { id:"PL-1038", customer:"Amahle Zulu", email:"amahle.zulu@gmail.com", date:"2026-07-19", status:"pending",
+      items:[{name:"Essentials Set — Travel Pouch",qty:1,price:540},{name:"Silk Scrunchie — Rose",qty:3,price:120}] },
+    { id:"PL-1037", customer:"Kagiso Modise", email:"kagiso.m@icloud.com", date:"2026-07-18", status:"dispatched",
+      items:[{name:"Merino Overcoat — Charcoal, L",qty:1,price:4600}] },
+    { id:"PL-1036", customer:"Lerato Mahlangu", email:"lerato.mah@gmail.com", date:"2026-07-17", status:"pending",
+      items:[{name:"Structured Handbag — Blush",qty:1,price:2890}] },
+  ];
+
+  let activeFilter = "all";
+  let searchTerm = "";
+
+  function fmtR(n){ return "R" + n.toLocaleString("en-ZA", {minimumFractionDigits:0}); }
+  function fmtDate(d){
+    const dt = new Date(d + "T00:00:00");
+    return dt.toLocaleDateString("en-ZA", { day:"2-digit", month:"short", year:"numeric" });
+  }
+  function orderTotal(o){ return o.items.reduce((s,i)=> s + i.price*i.qty, 0); }
+
+  function render(){
+    const total = orders.length;
+    const pending = orders.filter(o=>o.status==="pending").length;
+    const dispatched = orders.filter(o=>o.status==="dispatched").length;
+    const revenue = orders.reduce((s,o)=> s + orderTotal(o), 0);
+
+    document.getElementById("stat-total").textContent = total;
+    document.getElementById("stat-pending").textContent = pending;
+    document.getElementById("stat-dispatched").textContent = dispatched;
+    document.getElementById("stat-revenue").textContent = fmtR(revenue);
+    document.getElementById("count-all").textContent = total;
+    document.getElementById("count-pending").textContent = pending;
+    document.getElementById("count-dispatched").textContent = dispatched;
+
+    let visible = orders.filter(o=>{
+      if(activeFilter !== "all" && o.status !== activeFilter) return false;
+      if(searchTerm){
+        const hay = (o.customer + " " + o.id + " " + o.email).toLowerCase();
+        if(!hay.includes(searchTerm)) return false;
+      }
+      return true;
+    });
+
+    const ledger = document.getElementById("ledger");
+    const empty = document.getElementById("empty");
+    ledger.innerHTML = "";
+
+    if(visible.length === 0){
+      empty.style.display = "block";
+      return;
+    }
+    empty.style.display = "none";
+
+    visible.forEach(o=>{
+      const card = document.createElement("div");
+      card.className = "order" + (o.status === "dispatched" ? " is-dispatched" : "");
+
+      const itemsHtml = o.items.map(i =>
+        `<div class="item-line">${i.qty} × ${i.name} <span>${fmtR(i.price*i.qty)}</span></div>`
+      ).join("");
+
+      card.innerHTML = `
+        <div class="order-row">
+          <div class="punch"></div>
+          <div class="order-id">${o.id}</div>
+          <div class="customer">${o.customer}<span class="sub">${o.email}</span></div>
+          <div class="items-count">${o.items.reduce((s,i)=>s+i.qty,0)} item${o.items.length>1?"s":""}</div>
+          <div class="total">${fmtR(orderTotal(o))}</div>
+          <div class="date">${fmtDate(o.date)}</div>
+          <div class="status-stamp">${o.status}</div>
+        </div>
+        <div class="order-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <h4>Items</h4>
+              ${itemsHtml}
+            </div>
+            <div class="detail-col">
+              <h4>Action</h4>
+              <button class="dispatch-btn" data-id="${o.id}">
+                ${o.status === "dispatched" ? "Mark as Pending" : "Mark as Dispatched"}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      card.querySelector(".order-row").addEventListener("click", ()=>{
+        card.classList.toggle("expanded");
+      });
+      card.querySelector(".dispatch-btn").addEventListener("click", (e)=>{
+        e.stopPropagation();
+        const ord = orders.find(x=>x.id === o.id);
+        ord.status = ord.status === "dispatched" ? "pending" : "dispatched";
+        render();
+      });
+
+      ledger.appendChild(card);
+    });
+  }
+
+  document.querySelectorAll(".tab").forEach(tab=>{
+    tab.addEventListener("click", ()=>{
+      document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+      tab.classList.add("active");
+      activeFilter = tab.dataset.filter;
+      render();
+    });
+  });
+
+  document.getElementById("search").addEventListener("input", (e)=>{
+    searchTerm = e.target.value.trim().toLowerCase();
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>

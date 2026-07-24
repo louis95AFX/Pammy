@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pammy Luxe | Admin Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-wrapper {
+            max-width: 600px;
+            margin: 150px auto 50px auto;
+            padding: 40px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+        .admin-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .admin-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-group select, .form-group textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 15px;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+        }
+        .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+        .admin-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            width: 100%;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: opacity 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+        .admin-btn:hover {
+            opacity: 0.9;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            margin-top: 15px;
+        }
+        .logout-btn:hover {
+            color: var(--text);
+            border-color: var(--text);
+        }
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* --- PREDEFINED COLOR PICKER GRID --- */
+        .color-selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .color-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+        .color-option:hover {
+            border-color: var(--primary);
+        }
+        .color-option input {
+            display: none; /* Hide default checkbox */
+        }
+        .color-option .custom-checkbox {
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            font-size: 0.6rem;
+            color: transparent;
+        }
+        .color-option input:checked + .custom-checkbox {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        .color-option input:checked + .custom-checkbox::before {
+            content: "✓";
+        }
+        .color-preview-circle {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            flex-shrink: 0;
+        }
+        .color-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* --- INVENTORY LIST SECTION --- */
+        .inventory-section {
+            margin-top: 40px;
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+        }
+        .inventory-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        .inventory-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .inventory-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 12px;
+        }
+        .inventory-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .inventory-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .inventory-details h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+        .inventory-details p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+        .inventory-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .action-btn.edit:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .action-btn.delete:hover {
+            border-color: #ff4d4d;
+            color: #ff4d4d;
+            background: rgba(255, 77, 77, 0.05);
+        }
+        .badge {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Simple Navigation -->
+    <nav>
+        <div class="logo">Pammy <i>Luxe</i> Admin</div>
+        <a href="index.html" class="icon-btn" title="Back to Store">🏠</a>
+    </nav>
+
+    <div class="container">
+        <!-- 1. LOGIN SECTION -->
+        <div id="loginSection" class="admin-wrapper">
+            <div class="admin-header">
+                <h2>Portal Login</h2>
+                <p>Enter administrative keys to access inventory control.</p>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" required placeholder="e.g. admin">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="admin-btn">AUTHORIZE</button>
+            </form>
+            <a href="index.html" class="back-home">Return to Boutique</a>
+        </div>
+
+        <!-- 2. UPLOAD DASHBOARD (Only visible upon successful authorization) -->
+        <div id="dashboardSection" class="admin-wrapper hidden">
+            <!-- ADMIN NAVIGATION TOP BAR -->
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                <a href="orders.html" class="admin-btn" style="width: auto; padding: 10px 20px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
+                    📦 View Customer Orders
+                </a>
+            </div>
+
+            <div class="admin-header">
+                <h2 id="formTitle">Product Manager</h2>
+                <p id="formSubtitle">Insert a new luxury item into the database collection.</p>
+            </div>
+            
+            <input type="hidden" id="editProductId" value="">
+
+            <form id="uploadForm" onsubmit="handleUpload(event)">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="prodName" required placeholder="e.g. Silk Evening Gown">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="prodCategory" required>
+                        <option value="clothing">Apparel</option>
+                        <option value="shoes">Footwear</option>
+                        <option value="accessories">Essentials</option>
+                        <option value="bags">Bags</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Price (ZAR)</label>
+                    <input type="number" id="prodPrice" required placeholder="350">
+                </div>
+                
+                <!-- Predefined Colors Selection Grid -->
+                <div class="form-group">
+                    <label>Select Colors Available</label>
+                    <div class="color-selector-grid" id="colorOptionsGrid"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Product Image File <span id="imgOptionalLabel" style="font-size: 0.75rem; color: var(--text-dim); text-transform: none; display:none;">(Leave empty to keep existing)</span></label>
+                    <input type="file" id="prodImage" accept="image/*" style="padding: 10px 0;">
+                </div>
+                
+                <button type="submit" class="admin-btn" id="submitBtn">UPLOAD PRODUCT</button>
+                <button type="button" class="admin-btn logout-btn" onclick="handleLogout()">LOGOUT</button>
+            </form>
+
+            <!-- 3. MANAGE INVENTORY LIST SECTION -->
+            <div class="inventory-section">
+                <h3>Manage Uploaded Items</h3>
+                <div class="inventory-list" id="inventoryList">
+                    <!-- Loaded dynamically via database queries -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matching configuration palette mapped from style configurations[cite: 1]
+        const colorMap = {
+            "Classic Pink": "#ebc3db",
+            "Tan Khaki": "#b89765",
+            "Black": "#0d0d0d",
+            "Charcoal": "#2b2b2b",
+            "Olive Green": "#556b2f",
+            "Slate Grey": "#708090",
+            "Taupe Grey": "#8b8589",
+            "Cream White": "#f5f5dc",
+            "Sky Blue": "#87ceeb",
+            "Mint Teal": "#5f9ea0",
+            "Classic Beige": "#d2b48c"
+        };
+
+        let tempBase64Image = ""; 
+        let databaseProducts = []; 
+
+        function renderColorSelectorGrid() {
+            const grid = document.getElementById('colorOptionsGrid');
+            grid.innerHTML = Object.entries(colorMap).map(([name, hex]) => `
+                <label class="color-option">
+                    <input type="checkbox" name="selectedColors" value="${name}">
+                    <span class="custom-checkbox"></span>
+                    <span class="color-preview-circle" style="background-color: ${hex}"></span>
+                    <span class="color-name">${name}</span>
+                </label>
+            `).join('');
+        }
+
+        renderColorSelectorGrid();
+
+        if (sessionStorage.getItem('isAdminLoggedIn') === 'true') {
+            showDashboard();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            if (user === 'admin' && pass === 'password') {
+                sessionStorage.setItem('isAdminLoggedIn', 'true');
+                showDashboard();
+            } else {
+                alert('Invalid Credentials!');
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.remove('hidden');
+            loadDatabaseProducts();
+            document.getElementById('prodImage').required = true;
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('isAdminLoggedIn');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('dashboardSection').classList.add('hidden');
+        }
+
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // --- READ INVENTORY FROM API ---
+        async function loadDatabaseProducts() {
+            const list = document.getElementById('inventoryList');
+            try {
+                const response = await fetch('api.php?action=get_products');
+                databaseProducts = await response.json();
+
+                if (databaseProducts.length === 0) {
+                    list.innerHTML = `<p style="color: var(--text-dim); text-align: center; padding: 20px;">No database items uploaded yet.</p>`;
+                    return;
+                }
+
+                list.innerHTML = databaseProducts.map(p => {
+                    const displayImg = p.variants[0]?.img || '';
+                    const colorsList = p.variants.map(v => v.color).join(', ');
+                    return `
+                        <div class="inventory-item">
+                            <div class="inventory-info">
+                                <img class="inventory-img" src="${displayImg}" alt="${p.name}">
+                                <div class="inventory-details">
+                                    <h4>${p.name}</h4>
+                                    <p>R${p.price.toLocaleString()} &bull; <span class="badge">${p.category}</span></p>
+                                    <p style="font-size: 0.75rem; margin-top: 3px;">Colors: ${colorsList}</p>
+                                </div>
+                            </div>
+                            <div class="inventory-actions">
+                                <button class="action-btn edit" onclick="startEdit(${p.id})">Edit</button>
+                                <button class="action-btn delete" onclick="deleteProduct(${p.id})">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error("Error loading products:", err);
+                list.innerHTML = `<p style="color: #ff4d4d; text-align: center; padding: 20px;">Failed to connect to backend database.</p>`;
+            }
+        }
+
+        // --- DELETE INVENTORY FROM DATABASE ---
+        async function deleteProduct(id) {
+            if (!confirm("Are you sure you want to permanently delete this item from the database?")) return;
+
+            try {
+                const response = await fetch(`api.php?action=delete_product&id=${id}`, {
+                    method: 'DELETE'
+                });
+                const res = await response.json();
+                if (res.success) {
+                    alert("Product successfully deleted!");
+                    loadDatabaseProducts();
+                } else {
+                    alert("Error: " + res.error);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Failed to delete product.");
+            }
+        }
+
+        // --- INITIATE ITEM UPDATE STATE ---
+        function startEdit(id) {
+            const product = databaseProducts.find(p => p.id === id);
+            if (!product) return;
+
+            document.getElementById('formTitle').innerText = "Edit Database Product";
+            document.getElementById('formSubtitle').innerText = "Update configuration parameters inside MySQL.";
+            document.getElementById('submitBtn').innerText = "UPDATE DATABASE PRODUCT";
+            document.getElementById('imgOptionalLabel').style.display = "inline";
+            
+            document.getElementById('prodImage').required = false;
+
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('prodName').value = product.name;
+            document.getElementById('prodCategory').value = product.category;
+            document.getElementById('prodPrice').value = product.price;
+
+            const checkboxes = document.querySelectorAll('input[name="selectedColors"]');
+            checkboxes.forEach(cb => cb.checked = false);
+
+            const productColors = product.variants.map(v => v.color);
+            checkboxes.forEach(cb => {
+                if (productColors.includes(cb.value)) {
+                    cb.checked = true;
+                }
+            });
+
+            tempBase64Image = product.variants[0]?.img || "";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetFormState() {
+            document.getElementById('uploadForm').reset();
+            document.getElementById('editProductId').value = "";
+            document.getElementById('formTitle').innerText = "Product Manager";
+            document.getElementById('formSubtitle').innerText = "Insert a new luxury item into the database collection.";
+            document.getElementById('submitBtn').innerText = "UPLOAD PRODUCT";
+            document.getElementById('imgOptionalLabel').style.display = "none";
+            document.getElementById('prodImage').required = true;
+            tempBase64Image = "";
+            
+            const checkboxes = document.querySelectorAll('input[name="selectedColors"]');
+            checkboxes.forEach(cb => cb.checked = false);
+        }
+
+        // --- SAVE / UPDATE TO API ---
+        async function handleUpload(e) {
+            e.preventDefault();
+            
+            const editId = document.getElementById('editProductId').value;
+            const name = document.getElementById('prodName').value;
+            const category = document.getElementById('prodCategory').value;
+            const price = parseFloat(document.getElementById('prodPrice').value);
+            const imageFile = document.getElementById('prodImage').files[0];
+
+            const selectedCheckboxes = document.querySelectorAll('input[name="selectedColors"]:checked');
+            const selectedColors = Array.from(selectedCheckboxes).map(cb => cb.value);
+
+            if (selectedColors.length === 0) {
+                alert("Please select at least one product color.");
+                return;
+            }
+
+            try {
+                let finalImage = tempBase64Image;
+
+                if (imageFile) {
+                    finalImage = await getBase64(imageFile);
+                } else if (!editId) {
+                    alert("Please select an image file.");
+                    return;
+                }
+
+                const variants = selectedColors.map(color => {
+                    return { color: color, img: finalImage };
+                });
+
+                const payload = {
+                    name: name,
+                    price: price,
+                    category: category,
+                    variants: variants
+                };
+
+                if (editId) {
+                    payload.id = parseInt(editId);
+                }
+
+                const response = await fetch('api.php?action=save_product', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(editId ? "Product updated in database!" : "New product saved to database!");
+                    resetFormState();
+                    loadDatabaseProducts();
+                } else {
+                    alert("Error: " + result.error);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("An error occurred communicating with database API.");
+            }
+        }
+    </script>
+</body>
+</html>
